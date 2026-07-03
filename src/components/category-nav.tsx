@@ -3,24 +3,48 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import {
+  Cake,
+  Coffee,
+  CookingPot,
+  Croissant,
+  Flame,
+  Salad,
+  Soup,
+  UtensilsCrossed,
+  type LucideIcon,
+} from "lucide-react";
 import { CATEGORIES } from "@/data/menu";
 import { MiniBar } from "@/components/top-bar";
 import { cn, haptic } from "@/lib/utils";
 
 export type CategoryFilter = "all" | (typeof CATEGORIES)[number]["id"];
 
+/** фирменные линейные иконки вместо эмодзи — единый штрих, как в лого */
+const ICONS: Record<CategoryFilter, LucideIcon> = {
+  all: UtensilsCrossed,
+  plov: CookingPot,
+  lagman: Soup,
+  manty: Croissant,
+  shashlik: Flame,
+  salads: Salad,
+  soups: Soup,
+  desserts: Cake,
+  drinks: Coffee,
+};
+
 interface CategoryNavProps {
   active: CategoryFilter;
   onChange: (id: CategoryFilter) => void;
 }
 
-const ITEMS: { id: CategoryFilter; label: string; emoji?: string }[] = [
-  { id: "all", label: "All" },
-  ...CATEGORIES.map((c) => ({ id: c.id, label: c.label, emoji: c.emoji })),
+const ITEMS: { id: CategoryFilter; label: string }[] = [
+  { id: "all", label: "Всё меню" },
+  ...CATEGORIES.map((c) => ({ id: c.id, label: c.label })),
 ];
 
 export function CategoryNav({ active, onChange }: CategoryNavProps) {
-  // sentinel: when it leaves the top of the viewport the rail is "stuck"
+  // сентинел: как только он уходит за верх экрана — панель «прилипла»
   const { ref: sentinelRef, inView } = useInView({ initialInView: true });
   const stuck = !inView;
   const chipRefs = useRef(new Map<string, HTMLButtonElement>());
@@ -40,15 +64,16 @@ export function CategoryNav({ active, onChange }: CategoryNavProps) {
         className={cn(
           "sticky top-0 z-40 transition-[background,box-shadow] duration-300",
           stuck
-            ? "bg-base/80 backdrop-blur-2xl border-b border-line shadow-[0_12px_32px_-16px_rgba(0,0,0,0.8)] pt-safe"
+            ? "bg-base/85 backdrop-blur-2xl border-b border-line shadow-[0_10px_28px_-18px_rgba(30,25,15,0.35)] pt-safe"
             : "bg-transparent",
         )}
       >
         <MiniBar visible={stuck} />
-        <nav aria-label="Menu categories">
-          <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 py-3">
+        <nav aria-label="Категории меню" className="no-scrollbar overflow-x-auto">
+          <div className="mx-auto flex w-max gap-2 px-5 py-3 lg:px-8">
             {ITEMS.map((item) => {
               const isActive = item.id === active;
+              const Icon = ICONS[item.id];
               return (
                 <button
                   key={item.id}
@@ -63,8 +88,7 @@ export function CategoryNav({ active, onChange }: CategoryNavProps) {
                   }}
                   className={cn(
                     "relative flex h-11 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-semibold whitespace-nowrap cursor-pointer",
-                    !isActive &&
-                      "bg-white/[0.06] border border-line text-mute active:bg-white/[0.1]",
+                    !isActive && "bg-white border border-line text-mute active:bg-veil",
                   )}
                 >
                   {isActive && (
@@ -74,15 +98,19 @@ export function CategoryNav({ active, onChange }: CategoryNavProps) {
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
                   )}
-                  {item.emoji && (
-                    <span aria-hidden className="relative z-10 text-[15px]">
-                      {item.emoji}
-                    </span>
-                  )}
+                  <Icon
+                    size={15}
+                    strokeWidth={2.2}
+                    aria-hidden
+                    className={cn(
+                      "relative z-10 transition-colors duration-200",
+                      isActive ? "text-onfg" : "text-dim",
+                    )}
+                  />
                   <span
                     className={cn(
                       "relative z-10 transition-colors duration-200",
-                      isActive && "text-black",
+                      isActive && "text-onfg",
                     )}
                   >
                     {item.label}

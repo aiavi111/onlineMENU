@@ -6,25 +6,28 @@
 }
 
 @theme {
-  /* ── NOIR monochrome dark system ─────────────────────── */
-  --color-shell: #050506; /* outside the phone frame */
-  --color-base: #0a0a0c; /* app background */
-  --color-card: #141417; /* raised surface */
-  --color-card2: #1c1c20; /* higher surface */
-  --color-line: #ffffff14; /* hairline borders (8% white) */
-  --color-line2: #ffffff1f; /* stronger border (12% white) */
-  --color-fg: #fafafa; /* primary text */
-  --color-mute: #a3a3ad; /* secondary text */
-  --color-dim: #6e6e78; /* tertiary text */
-  --color-star: #ffc95e; /* rating amber — functional only */
-  --color-leaf: #5adc8c; /* vegetarian — functional only */
-  --color-flame: #ff7052; /* spicy — functional only */
-  --color-danger: #ff5a4e;
+  /* ── MUBARAK light warm system ───────────────────────── */
+  --color-shell: #ece7df; /* outside the phone frame */
+  --color-base: #faf8f4; /* app background — warm paper */
+  --color-card: #ffffff; /* raised surface */
+  --color-card2: #f2eee7; /* dipped surface */
+  --color-line: #17150f14; /* hairline borders (8% ink) */
+  --color-line2: #17150f24; /* stronger border (14% ink) */
+  --color-fg: #17150f; /* ink */
+  --color-onfg: #faf8f4; /* text on ink buttons */
+  --color-mute: #6f695e; /* secondary text */
+  --color-dim: #a49d8f; /* tertiary text */
+  --color-veil: #17150f0a; /* soft fill (4% ink) */
+  --color-veil2: #17150f12; /* pressed fill (7% ink) */
+  --color-star: #d9931e; /* rating amber */
+  --color-leaf: #2e9e5b; /* vegetarian */
+  --color-flame: #d9542b; /* spicy */
+  --color-danger: #d4453a;
 
   --radius-4xl: 2rem;
 
-  --shadow-lift: 0 20px 40px -16px rgb(0 0 0 / 0.55);
-  --shadow-float: 0 12px 32px -8px rgb(0 0 0 / 0.65), 0 2px 8px rgb(0 0 0 / 0.35);
+  --shadow-lift: 0 18px 36px -18px rgb(30 25 15 / 0.18);
+  --shadow-float: 0 12px 30px -10px rgb(30 25 15 / 0.2), 0 2px 8px rgb(30 25 15 / 0.07);
 
   --animate-shimmer: shimmer 1.8s linear infinite;
 
@@ -39,7 +42,7 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
@@ -54,8 +57,8 @@ body {
 }
 
 ::selection {
-  background: #fafafa;
-  color: #0a0a0c;
+  background: #17150f;
+  color: #faf8f4;
 }
 
 button,
@@ -68,7 +71,7 @@ textarea,
 }
 
 :focus-visible {
-  outline: 2px solid #fafafa;
+  outline: 2px solid #17150f;
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -92,21 +95,21 @@ input::-webkit-inner-spin-button {
 .shimmer {
   background: linear-gradient(
     100deg,
-    #17171a 40%,
-    #212127 50%,
-    #17171a 60%
+    #eee9e0 40%,
+    #f7f4ee 50%,
+    #eee9e0 60%
   );
   background-size: 200% 100%;
   animation: var(--animate-shimmer);
 }
 
-/* subtle grain for luxury depth */
+/* subtle grain for tactile paper depth */
 .grain::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.028;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 

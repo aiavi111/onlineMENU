@@ -21,6 +21,6 @@ export const useFavorites = create<FavState>()(
         })),
       has: (id) => get().ids.includes(id),
     }),
-    { name: "noir-favorites" },
+    { name: "mubarak-favorites" },
   ),
 );

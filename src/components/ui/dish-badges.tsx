@@ -6,21 +6,21 @@ const STYLES: Record<
   BadgeKind,
   { label: string; className: string; Icon?: typeof Flame; iconClass?: string }
 > = {
-  popular: { label: "Bestseller", className: "bg-fg text-black" },
+  popular: { label: "Хит", className: "bg-fg text-onfg" },
   new: {
-    label: "New",
-    className: "bg-black/45 text-fg border border-white/20 backdrop-blur-md",
+    label: "Новинка",
+    className: "bg-black/45 text-white border border-white/20 backdrop-blur-md",
     Icon: Sparkles,
   },
   spicy: {
-    label: "Spicy",
-    className: "bg-black/45 text-fg border border-white/20 backdrop-blur-md",
+    label: "Остро",
+    className: "bg-black/45 text-white border border-white/20 backdrop-blur-md",
     Icon: Flame,
     iconClass: "text-flame",
   },
   veg: {
-    label: "Veggie",
-    className: "bg-black/45 text-fg border border-white/20 backdrop-blur-md",
+    label: "Вегги",
+    className: "bg-black/45 text-white border border-white/20 backdrop-blur-md",
     Icon: Leaf,
     iconClass: "text-leaf",
   },

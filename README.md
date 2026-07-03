@@ -1,44 +1,30 @@
-# NOIR — Premium Mobile Restaurant Ordering
+# Mubarak — Чайхана · Мобильное приложение заказа
 
-A dark, monochrome, mobile-first food ordering experience that feels like a native iOS app. Built with Next.js 15, React 19, Tailwind CSS v4 and Framer Motion.
+Премиальный сайт-приложение для чайханы «Mubarak» (Бишкек): светлая тема в фирменном стиле, весь интерфейс на русском, цены в сомах. Next.js 15, React 19, Tailwind CSS v4, Framer Motion.
 
-## Run it
+## Запуск
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000 — ideally in a mobile viewport (390–430 px) or on your phone. Deploys to Vercel with zero config.
+Телефон (390–430 px) — основной формат; с ≥1024 px раскладка сама расширяется: меню в 2–3 колонки, широкий hero, корзина у правого края. Деплой на Vercel без настроек.
 
-## What's inside
+## Что внутри
 
-- **Hero** — parallax restaurant photo, rating/ETA/fees glass card, favorite + share
-- **Search** — animated glass bar with voice pulse, working filters (veg-only, sorting)
-- **Categories** — sticky rail with sliding active pill; compact header unfolds on scroll
-- **Dish cards** — scroll-reveal animation, badges, favorites, one-tap quick add
-- **Product sheet** — drag-to-dismiss bottom sheet, swipeable gallery, nutrition tiles, sizes, extras, sauces, notes, live-priced add-to-cart
-- **Cart** — floating white pill with live total; sheet with swipe-to-remove rows, promo codes (`NOIR10`, `CHEF20`), animated totals
-- **Checkout** — delivery/pickup toggle, animated vector map, validated form (React Hook Form + Zod), payment methods, confirmation animation
-- Cart and favorites persist in `localStorage` (Zustand). Safe-area aware, reduced-motion aware, keyboard accessible.
+- **Hero** — фото зала с параллаксом, векторный логотип, рейтинг 4.8 (2ГИС), условия доставки
+- **Поиск** — голосовой пульс, рабочие фильтры (вегетарианское, сортировка)
+- **Категории** — линейные иконки Lucide (без эмодзи), скользящий активный чип
+- **Карточки блюд** — плов, лагман, манты, шашлык… 24 блюда с КБЖУ и бейджами
+- **Шторка блюда** — галерея, состав, порции, добавки, соусы, пожелания, живая цена
+- **Корзина** — плавающая кнопка, свайп-удаление, промокоды `MUBARAK10` / `CHAIHANA20`
+- **Оформление** — доставка/самовывоз, карта маршрута, валидация (RHF + Zod), Apple Pay / Google Pay / карта / наличные, анимация «Заказ принят»
 
-## Stack
+## Данные
 
-Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 · Framer Motion · Zustand · TanStack Query · React Hook Form + Zod · Embla Carousel · react-intersection-observer · Lucide
+`src/data/menu.ts` — ресторан, категории, блюда, цены. Фото пока с Unsplash — замените на фирменные из Instagram. Адрес и рейтинг — из 2ГИС (пр. Чуй, 104).
 
-## Structure
+## Стек
 
-```
-src/
-  app/            layout, home, checkout, providers, global tokens
-  components/     hero, search, categories, dish card/grid/sheet
-    cart/         floating pill, cart sheet
-    checkout/     map preview
-    ui/           button, bottom sheet, segmented, stepper, skeletons…
-  data/           restaurant + menu (swap for your API)
-  store/          cart + favorites (Zustand, persisted)
-  lib/            utils, hooks
-  types/          shared models
-```
-
-Food photography via Unsplash (hotlinked for the demo — replace with your own assets in `src/data/menu.ts`).
+Next.js 15 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · Framer Motion · Zustand · TanStack Query · React Hook Form + Zod · Embla · Lucide

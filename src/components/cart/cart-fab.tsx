@@ -5,9 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { computeTotals, useCart } from "@/store/cart";
 import { AnimatedMoney } from "@/components/ui/animated-money";
 import { useMounted } from "@/lib/hooks";
-import { haptic } from "@/lib/utils";
+import { haptic, plural } from "@/lib/utils";
 
-/** floating cart pill — glass shadow, live total, item thumbnails */
+/** плавающая корзина: живой итог и миниатюры блюд */
 export function CartFab({ onOpen, hidden }: { onOpen: () => void; hidden?: boolean }) {
   const mounted = useMounted();
   const lines = useCart((s) => s.lines);
@@ -24,7 +24,7 @@ export function CartFab({ onOpen, hidden }: { onOpen: () => void; hidden?: boole
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 120, opacity: 0 }}
           transition={{ type: "spring", stiffness: 320, damping: 30 }}
-          className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[430px] px-5 pb-safe"
+          className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[430px] px-5 pb-safe lg:inset-x-auto lg:right-8 lg:mx-0 lg:w-[400px] lg:px-0"
         >
           <motion.button
             type="button"
@@ -33,8 +33,8 @@ export function CartFab({ onOpen, hidden }: { onOpen: () => void; hidden?: boole
               onOpen();
             }}
             whileTap={{ scale: 0.97 }}
-            aria-label={`Open cart, ${totals.count} items`}
-            className="mb-2 flex h-[62px] w-full items-center gap-3 rounded-[26px] bg-fg px-4 text-black shadow-[0_18px_50px_-10px_rgba(255,255,255,0.28),0_10px_30px_-8px_rgba(0,0,0,0.7)] cursor-pointer"
+            aria-label={`Открыть корзину, ${totals.count} ${plural(totals.count, ["позиция", "позиции", "позиций"])}`}
+            className="mb-2 flex h-[62px] w-full items-center gap-3 rounded-[26px] bg-fg px-4 text-onfg shadow-[0_18px_44px_-10px_rgba(30,25,15,0.5)] cursor-pointer"
           >
             <span className="flex -space-x-3">
               {thumbs.map((l) => (
@@ -48,16 +48,16 @@ export function CartFab({ onOpen, hidden }: { onOpen: () => void; hidden?: boole
             </span>
             <span className="flex-1 text-left leading-tight">
               <span className="block text-[15px] font-extrabold tracking-tight">
-                View cart
+                Корзина
               </span>
               <motion.span
                 key={totals.count}
                 initial={{ scale: 1.3, opacity: 0.5 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 500, damping: 24 }}
-                className="inline-block text-[12px] font-semibold text-black/55"
+                className="inline-block text-[12px] font-semibold text-onfg/60"
               >
-                {totals.count} {totals.count === 1 ? "item" : "items"}
+                {totals.count} {plural(totals.count, ["позиция", "позиции", "позиций"])}
               </motion.span>
             </span>
             <AnimatedMoney

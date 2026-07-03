@@ -32,10 +32,10 @@ type Mode = "delivery" | "pickup";
 type PaymentId = "apple" | "google" | "card" | "cash";
 
 const schema = z.object({
-  name: z.string().min(2, "Your name helps the courier find you"),
+  name: z.string().min(2, "Имя поможет курьеру найти вас"),
   phone: z
     .string()
-    .regex(/^\+?[\d\s()-]{8,18}$/, "Enter a valid phone number"),
+    .regex(/^\+?[\d\s()-]{8,18}$/, "Укажите корректный номер телефона"),
   address: z.string().optional(),
   apt: z.string().optional(),
   comment: z.string().optional(),
@@ -44,10 +44,10 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const PAYMENTS: { id: PaymentId; label: string; sub: string; Icon: typeof Apple }[] = [
-  { id: "apple", label: "Apple Pay", sub: "Instant", Icon: Apple },
-  { id: "google", label: "Google Pay", sub: "Instant", Icon: Wallet },
-  { id: "card", label: "Card", sub: "On delivery", Icon: CreditCard },
-  { id: "cash", label: "Cash", sub: "On delivery", Icon: Banknote },
+  { id: "apple", label: "Apple Pay", sub: "Мгновенно", Icon: Apple },
+  { id: "google", label: "Google Pay", sub: "Мгновенно", Icon: Wallet },
+  { id: "card", label: "Картой", sub: "Курьеру", Icon: CreditCard },
+  { id: "cash", label: "Наличными", sub: "Курьеру", Icon: Banknote },
 ];
 
 export default function CheckoutPage() {
@@ -80,14 +80,14 @@ export default function CheckoutPage() {
 
   const onSubmit = (data: FormValues) => {
     if (mode === "delivery" && !data.address?.trim()) {
-      setError("address", { message: "We need a street address for delivery" });
+      setError("address", { message: "Для доставки нужен адрес" });
       return;
     }
     setPlacing(true);
     haptic(20);
     setTimeout(() => {
       setPlaced({
-        orderNo: `NR-${Math.floor(1000 + Math.random() * 9000)}`,
+        orderNo: `MB-${Math.floor(1000 + Math.random() * 9000)}`,
         total: totals.total,
       });
       clearCart();
@@ -98,45 +98,48 @@ export default function CheckoutPage() {
 
   return (
     <main className="min-h-dvh pb-6">
-      {/* header */}
-      <div className="sticky top-0 z-30 border-b border-line bg-base/80 backdrop-blur-2xl pt-safe">
-        <div className="relative flex h-14 items-center justify-center px-5">
+      {/* шапка */}
+      <div className="sticky top-0 z-30 border-b border-line bg-base/85 backdrop-blur-2xl pt-safe">
+        <div className="relative mx-auto flex h-14 max-w-[640px] items-center justify-center px-5">
           <motion.button
             whileTap={{ scale: 0.86 }}
-            aria-label="Back to menu"
+            aria-label="Назад в меню"
             onClick={() => router.back()}
-            className="absolute left-4 grid size-10 place-items-center rounded-full border border-line bg-white/[0.06] cursor-pointer"
+            className="absolute left-4 grid size-10 place-items-center rounded-full border border-line bg-white cursor-pointer"
           >
             <ChevronLeft size={19} />
           </motion.button>
-          <h1 className="text-[17px] font-extrabold tracking-tight">Checkout</h1>
+          <h1 className="text-[17px] font-extrabold tracking-tight">Оформление</h1>
         </div>
       </div>
 
       {empty ? (
         <div className="flex flex-col items-center gap-4 px-8 py-24 text-center">
-          <span className="grid size-16 place-items-center rounded-full border border-line bg-white/[0.05]">
+          <span className="grid size-16 place-items-center rounded-full border border-line bg-veil">
             <ShoppingBag size={26} className="text-dim" />
           </span>
-          <p className="text-[16px] font-bold">Nothing to check out yet</p>
+          <p className="text-[16px] font-bold">Пока нечего оформлять</p>
           <Button variant="glass" size="sm" onClick={() => router.push("/")}>
-            Back to the menu
+            Вернуться в меню
           </Button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-7 px-5 pt-5">
-          {/* mode */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mx-auto max-w-[640px] space-y-7 px-5 pt-5"
+        >
+          {/* способ получения */}
           <Segmented<Mode>
             groupId="mode"
             value={mode}
             onChange={setMode}
             options={[
-              { id: "delivery", label: "Delivery", hint: RESTAURANT.deliveryTime },
-              { id: "pickup", label: "Pickup", hint: "15–20 min" },
+              { id: "delivery", label: "Доставка", hint: RESTAURANT.deliveryTime },
+              { id: "pickup", label: "Самовывоз", hint: "15–20 мин" },
             ]}
           />
 
-          {/* destination */}
+          {/* куда */}
           <AnimatePresence mode="wait" initial={false}>
             {mode === "delivery" ? (
               <motion.section
@@ -149,23 +152,23 @@ export default function CheckoutPage() {
               >
                 <MapPreview />
                 <Field
-                  label="Street address"
+                  label="Адрес доставки"
                   error={errors.address?.message}
                   input={
                     <input
                       {...register("address")}
-                      placeholder="e.g. 48 Marble Row"
+                      placeholder="например, ул. Киевская, 95"
                       autoComplete="street-address"
                       className={inputCls(!!errors.address)}
                     />
                   }
                 />
                 <Field
-                  label="Apartment, floor, entrance (optional)"
+                  label="Квартира, этаж, подъезд (необязательно)"
                   input={
                     <input
                       {...register("apt")}
-                      placeholder="Apt 12 · floor 3 · door code 4821"
+                      placeholder="кв. 12 · 3 этаж · домофон 4821"
                       className={inputCls(false)}
                     />
                   }
@@ -178,43 +181,43 @@ export default function CheckoutPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="flex items-center gap-3.5 rounded-3xl border border-line bg-white/[0.04] p-4"
+                className="flex items-center gap-3.5 rounded-3xl border border-line bg-card p-4 shadow-[0_4px_14px_-8px_rgba(30,25,15,0.14)]"
               >
-                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-fg text-black">
+                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-fg text-onfg">
                   <MapPin size={20} />
                 </span>
                 <div>
                   <p className="text-[15px] font-bold">{RESTAURANT.address}</p>
                   <p className="mt-0.5 text-[13px] font-medium text-mute">
-                    Ready in 15–20 min · we&apos;ll text you when it&apos;s hot
+                    Готовим за 15–20 минут · напишем, когда будет готово
                   </p>
                 </div>
               </motion.section>
             )}
           </AnimatePresence>
 
-          {/* contact */}
+          {/* контакты */}
           <section className="space-y-4">
-            <SectionTitle>Contact</SectionTitle>
+            <SectionTitle>Контакты</SectionTitle>
             <Field
-              label="Your name"
+              label="Ваше имя"
               error={errors.name?.message}
               input={
                 <input
                   {...register("name")}
-                  placeholder="Aivar"
+                  placeholder="Айвар"
                   autoComplete="name"
                   className={inputCls(!!errors.name)}
                 />
               }
             />
             <Field
-              label="Phone number"
+              label="Номер телефона"
               error={errors.phone?.message}
               input={
                 <input
                   {...register("phone")}
-                  placeholder="+1 415 000 0000"
+                  placeholder="+996 555 123 456"
                   inputMode="tel"
                   autoComplete="tel"
                   className={inputCls(!!errors.phone)}
@@ -223,10 +226,14 @@ export default function CheckoutPage() {
             />
           </section>
 
-          {/* payment */}
+          {/* оплата */}
           <section>
-            <SectionTitle>Payment</SectionTitle>
-            <div className="mt-3 grid grid-cols-2 gap-2.5" role="radiogroup" aria-label="Payment method">
+            <SectionTitle>Оплата</SectionTitle>
+            <div
+              className="mt-3 grid grid-cols-2 gap-2.5"
+              role="radiogroup"
+              aria-label="Способ оплаты"
+            >
               {PAYMENTS.map(({ id, label, sub, Icon }) => {
                 const active = payment === id;
                 return (
@@ -243,8 +250,8 @@ export default function CheckoutPage() {
                     className={cn(
                       "relative rounded-2xl border p-4 text-left transition-colors duration-150 cursor-pointer",
                       active
-                        ? "border-white/60 bg-white/[0.09]"
-                        : "border-line bg-white/[0.03]",
+                        ? "border-fg/50 bg-veil2"
+                        : "border-line bg-white",
                     )}
                   >
                     <Icon size={20} className={active ? "text-fg" : "text-mute"} />
@@ -259,7 +266,7 @@ export default function CheckoutPage() {
                           transition={{ type: "spring", stiffness: 560, damping: 24 }}
                           className="absolute right-3 top-3 grid size-5 place-items-center rounded-full bg-fg"
                         >
-                          <Check size={12} strokeWidth={3.5} className="text-black" />
+                          <Check size={12} strokeWidth={3.5} className="text-onfg" />
                         </motion.span>
                       )}
                     </AnimatePresence>
@@ -269,22 +276,22 @@ export default function CheckoutPage() {
             </div>
           </section>
 
-          {/* comment */}
+          {/* комментарий */}
           <Field
-            label="Comment for the kitchen (optional)"
+            label="Комментарий к заказу (необязательно)"
             input={
               <textarea
                 {...register("comment")}
                 rows={2}
-                placeholder="Ring the bell twice, leave at the door…"
+                placeholder="Позвоните за 5 минут, не звоните в дверь…"
                 className={cn(inputCls(false), "h-auto resize-none py-3")}
               />
             }
           />
 
-          {/* summary */}
-          <section className="rounded-3xl border border-line bg-white/[0.03] p-4">
-            <SectionTitle>Order summary</SectionTitle>
+          {/* заказ */}
+          <section className="rounded-3xl border border-line bg-card p-4 shadow-[0_4px_14px_-8px_rgba(30,25,15,0.14)]">
+            <SectionTitle>Ваш заказ</SectionTitle>
             <div className="mt-3 mb-4 space-y-2.5">
               {lines.map((l) => (
                 <div key={l.key} className="flex items-center gap-3">
@@ -305,28 +312,28 @@ export default function CheckoutPage() {
             <p className="mt-3 flex items-center gap-1.5 text-[12.5px] font-medium text-dim">
               <Clock size={13} />
               {mode === "delivery"
-                ? `Estimated arrival: ${RESTAURANT.deliveryTime}`
-                : "Ready for pickup in 15–20 min"}
+                ? `Привезём через ${RESTAURANT.deliveryTime}`
+                : "Будет готово через 15–20 мин"}
             </p>
           </section>
 
-          {/* CTA */}
+          {/* кнопка оплаты */}
           <div className="sticky bottom-0 -mx-5 bg-gradient-to-t from-base via-base/95 to-transparent px-5 pt-5 pb-safe">
             <Button size="lg" type="submit" disabled={placing} className="w-full">
               {placing ? (
                 <>
                   <Loader2 size={19} className="animate-spin" />
-                  Placing your order…
+                  Оформляем заказ…
                 </>
               ) : (
-                <>Pay {money(totals.total)}</>
+                <>Оплатить {money(totals.total)}</>
               )}
             </Button>
           </div>
         </form>
       )}
 
-      {/* success */}
+      {/* подтверждение */}
       <AnimatePresence>
         {placed && (
           <SuccessOverlay
@@ -341,7 +348,7 @@ export default function CheckoutPage() {
   );
 }
 
-/* ── success overlay ─────────────────────────────────────── */
+/* ── экран подтверждения ─────────────────────────────────── */
 
 function SuccessOverlay({
   orderNo,
@@ -359,27 +366,27 @@ function SuccessOverlay({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 mx-auto flex w-full max-w-[430px] flex-col items-center justify-center bg-base px-8 text-center"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-base px-8 text-center"
       role="status"
     >
       <div className="relative mb-8">
         {[0, 1].map((i) => (
           <motion.span
             key={i}
-            className="absolute inset-0 rounded-full border border-white/25"
+            className="absolute inset-0 rounded-full border border-fg/25"
             initial={{ scale: 1, opacity: 0 }}
             animate={{ scale: 2.2 + i * 0.5, opacity: [0, 0.5, 0] }}
             transition={{ duration: 1.6, delay: 0.9 + i * 0.25, ease: "easeOut" }}
           />
         ))}
         <svg viewBox="0 0 120 120" className="size-28">
-          <circle cx="60" cy="60" r="54" fill="none" stroke="#ffffff1a" strokeWidth="3" />
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#17150f1a" strokeWidth="3" />
           <motion.circle
             cx="60"
             cy="60"
             r="54"
             fill="none"
-            stroke="#fafafa"
+            stroke="#17150f"
             strokeWidth="3.5"
             strokeLinecap="round"
             transform="rotate(-90 60 60)"
@@ -390,7 +397,7 @@ function SuccessOverlay({
           <motion.path
             d="M38 62 L54 78 L84 46"
             fill="none"
-            stroke="#fafafa"
+            stroke="#17150f"
             strokeWidth="6.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -406,14 +413,14 @@ function SuccessOverlay({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, type: "spring", stiffness: 260, damping: 24 }}
       >
-        <h2 className="text-[26px] font-extrabold tracking-tight">Order confirmed</h2>
+        <h2 className="text-[26px] font-extrabold tracking-tight">Заказ принят!</h2>
         <p className="mt-2 text-[14.5px] leading-relaxed text-mute">
-          Order <span className="font-bold text-fg">{orderNo}</span> ·{" "}
+          Заказ <span className="font-bold text-fg">{orderNo}</span> ·{" "}
           <span className="font-bold text-fg tabular-nums">{money(total)}</span>
           <br />
           {mode === "delivery"
-            ? `Arriving in ${RESTAURANT.deliveryTime}. The kitchen is already on it.`
-            : "Ready for pickup in 15–20 min. See you soon."}
+            ? `Кухня уже готовит. Курьер будет через ${RESTAURANT.deliveryTime}.`
+            : `Будет готов через 15–20 минут. Ждём вас: ${RESTAURANT.address}.`}
         </p>
       </motion.div>
 
@@ -421,22 +428,22 @@ function SuccessOverlay({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.05, type: "spring", stiffness: 260, damping: 24 }}
-        className="mt-10 w-full"
+        className="mt-10 w-full max-w-[430px]"
       >
         <Button size="lg" className="w-full" onClick={onDone}>
-          Back to the menu
+          Вернуться в меню
         </Button>
       </motion.div>
     </motion.div>
   );
 }
 
-/* ── form bits ───────────────────────────────────────────── */
+/* ── детали формы ────────────────────────────────────────── */
 
 function inputCls(hasError: boolean) {
   return cn(
-    "h-12 w-full rounded-2xl border bg-white/[0.04] px-4 text-[15px] font-medium placeholder:text-dim focus:outline-none transition-colors",
-    hasError ? "border-danger/60" : "border-line focus:border-white/30",
+    "h-12 w-full rounded-2xl border bg-white px-4 text-[15px] font-medium placeholder:text-dim focus:outline-none transition-colors",
+    hasError ? "border-danger/60" : "border-line focus:border-fg/40",
   );
 }
 

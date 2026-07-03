@@ -10,11 +10,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-fg text-black active:bg-white",
+        primary: "bg-fg text-onfg active:bg-fg/90",
         glass:
-          "bg-white/[0.07] text-fg border border-line2 backdrop-blur-xl active:bg-white/[0.12]",
+          "bg-white/80 text-fg border border-line2 backdrop-blur-xl active:bg-white",
         ghost: "text-mute active:text-fg",
-        outline: "border border-line2 text-fg active:bg-white/[0.06]",
+        outline: "border border-line2 text-fg active:bg-veil",
       },
       size: {
         sm: "h-10 px-4 text-sm",

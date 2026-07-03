@@ -23,7 +23,7 @@ interface DishSheetProps {
 }
 
 export function DishSheet({ dish, onClose }: DishSheetProps) {
-  // keep last dish rendered during the exit animation
+  // держим последнее блюдо, чтобы шторка красиво уехала вниз
   const lastDish = useRef<Dish | null>(null);
   if (dish) lastDish.current = dish;
   const shown = dish ?? lastDish.current;
@@ -93,7 +93,7 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
       <Gallery dish={dish} onClose={onClose} />
 
       <div className="space-y-6 px-6 pb-8 pt-5">
-        {/* title row */}
+        {/* заголовок */}
         <div>
           <div className="flex items-start justify-between gap-4">
             <h2 className="text-[24px] font-extrabold leading-tight tracking-tight">
@@ -109,52 +109,54 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
             <span>({dish.reviews})</span>
             <span className="text-dim">·</span>
             <span className="flex items-center gap-1">
-              <Clock size={13} /> {dish.cookTime} min
+              <Clock size={13} /> {dish.cookTime} мин
             </span>
             <span className="text-dim">·</span>
-            <span className="tabular-nums">{dish.weight} g</span>
+            <span className="tabular-nums">
+              {dish.weight} {dish.category === "drinks" ? "мл" : "г"}
+            </span>
           </div>
           <p className="mt-3 text-[14.5px] leading-relaxed text-mute">
             {dish.description}
           </p>
         </div>
 
-        {/* nutrition */}
-        <div className="grid grid-cols-4 gap-2" aria-label="Nutrition facts">
+        {/* КБЖУ */}
+        <div className="grid grid-cols-4 gap-2" aria-label="Пищевая ценность">
           {(
             [
-              [dish.kcal, "kcal"],
-              [dish.protein, "protein"],
-              [dish.fat, "fat"],
-              [dish.carbs, "carbs"],
+              [dish.kcal, "ккал", false],
+              [dish.protein, "белки", true],
+              [dish.fat, "жиры", true],
+              [dish.carbs, "углеводы", true],
             ] as const
-          ).map(([value, label], i) => (
+          ).map(([value, label, grams], i) => (
             <motion.div
               key={label}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.06 * i, type: "spring", stiffness: 300, damping: 26 }}
-              className="rounded-2xl border border-line bg-white/[0.04] py-3 text-center"
+              className="rounded-2xl border border-line bg-veil py-3 text-center"
             >
               <p className="text-[15px] font-extrabold tabular-nums">
                 {value}
-                {label !== "kcal" && <span className="text-[11px] font-bold"> g</span>}
+                {grams && <span className="text-[11px] font-bold"> г</span>}
               </p>
-              <p className="mt-0.5 text-[10.5px] font-semibold uppercase tracking-wider text-dim">
+              <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-dim">
                 {label}
               </p>
             </motion.div>
           ))}
         </div>
 
-        {/* ingredients */}
+        {/* состав */}
         <section>
-          <SectionLabel>Ingredients</SectionLabel>
+          <SectionLabel>Состав</SectionLabel>
           <div className="flex flex-wrap gap-1.5">
             {dish.ingredients.map((ing) => (
               <span
                 key={ing}
-                className="rounded-full border border-line bg-white/[0.05] px-3 py-1.5 text-[12.5px] font-medium text-mute"
+                className="rounded-full border border-line bg-veil px-3 py-1.5 text-[12.5px] font-medium text-mute"
               >
                 {ing}
               </span>
@@ -163,15 +165,15 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
           {dish.allergens.length > 0 && (
             <p className="mt-3 flex items-center gap-1.5 text-[12.5px] font-medium text-dim">
               <TriangleAlert size={13} />
-              Contains: {dish.allergens.join(", ")}
+              Аллергены: {dish.allergens.join(", ")}
             </p>
           )}
         </section>
 
-        {/* size */}
+        {/* размер */}
         {dish.sizes && (
           <section>
-            <SectionLabel>Size</SectionLabel>
+            <SectionLabel>Порция</SectionLabel>
             <Segmented
               groupId={`size-${dish.id}`}
               value={sizeId}
@@ -185,10 +187,10 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
           </section>
         )}
 
-        {/* extras */}
+        {/* добавки */}
         {dish.extras.length > 0 && (
           <section>
-            <SectionLabel>Make it yours</SectionLabel>
+            <SectionLabel>Добавки</SectionLabel>
             <div className="overflow-hidden rounded-2xl border border-line divide-y divide-line">
               {dish.extras.map((extra) => {
                 const on = extras.includes(extra.id);
@@ -199,7 +201,7 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
                     role="checkbox"
                     aria-checked={on}
                     onClick={() => toggle(extras, setExtras, extra.id)}
-                    className="flex w-full items-center gap-3 bg-white/[0.03] px-4 py-3.5 text-left cursor-pointer active:bg-white/[0.06] transition-colors"
+                    className="flex w-full items-center gap-3 bg-white px-4 py-3.5 text-left cursor-pointer active:bg-veil transition-colors"
                   >
                     <span
                       className={cn(
@@ -216,7 +218,7 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
                             transition={{ type: "spring", stiffness: 600, damping: 22 }}
                             className="flex"
                           >
-                            <Check size={14} strokeWidth={3.5} className="text-black" />
+                            <Check size={14} strokeWidth={3.5} className="text-onfg" />
                           </motion.span>
                         )}
                       </AnimatePresence>
@@ -232,10 +234,10 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
           </section>
         )}
 
-        {/* sauces */}
+        {/* соусы */}
         {dish.sauces.length > 0 && (
           <section>
-            <SectionLabel>Sauces</SectionLabel>
+            <SectionLabel>Соусы</SectionLabel>
             <div className="flex flex-wrap gap-2">
               {dish.sauces.map((sauce) => {
                 const on = sauces.includes(sauce.id);
@@ -249,12 +251,12 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
                     className={cn(
                       "h-10 rounded-full px-4 text-[13px] font-semibold cursor-pointer border transition-colors duration-150",
                       on
-                        ? "bg-fg text-black border-transparent"
-                        : "bg-white/[0.05] text-mute border-line",
+                        ? "bg-fg text-onfg border-transparent"
+                        : "bg-veil text-mute border-line",
                     )}
                   >
                     {sauce.name}
-                    <span className={cn("ml-1.5 tabular-nums", on ? "text-black/60" : "text-dim")}>
+                    <span className={cn("ml-1.5 tabular-nums", on ? "text-onfg/60" : "text-dim")}>
                       +{money(sauce.price)}
                     </span>
                   </motion.button>
@@ -264,22 +266,21 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
           </section>
         )}
 
-        {/* note */}
+        {/* пожелания */}
         <section>
-          <SectionLabel>Special requests</SectionLabel>
+          <SectionLabel>Пожелания к заказу</SectionLabel>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             rows={2}
             maxLength={140}
-            placeholder="e.g. no onions, sauce on the side…"
-            className="w-full resize-none rounded-2xl border border-line bg-white/[0.04] px-4 py-3 text-[14.5px] font-medium placeholder:text-dim focus:outline-none focus:border-white/30 transition-colors"
+            placeholder="Например: без лука, соус отдельно…"
+            className="w-full resize-none rounded-2xl border border-line bg-veil px-4 py-3 text-[14.5px] font-medium placeholder:text-dim focus:outline-none focus:border-fg/40 transition-colors"
           />
         </section>
       </div>
 
-      {/* pinned CTA — lives in the sheet footer slot via portal-less trick:
-          rendered here but sticky to sheet bottom */}
+      {/* прилипшая кнопка */}
       <div className="sticky bottom-0 z-10 border-t border-line bg-card/95 backdrop-blur-xl px-5 pt-3 pb-safe">
         <div className="flex items-center gap-3 pb-2">
           <Stepper value={qty} onChange={setQty} />
@@ -287,7 +288,7 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
             size="lg"
             className="min-w-0 flex-1 overflow-hidden"
             onClick={addToCart}
-            aria-label={`Add ${qty} to cart for ${money(total)}`}
+            aria-label={`Добавить ${qty} в корзину за ${money(total)}`}
           >
             <AnimatePresence mode="popLayout" initial={false}>
               {added ? (
@@ -298,7 +299,7 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
                   transition={{ type: "spring", stiffness: 460, damping: 26 }}
                   className="flex items-center gap-2"
                 >
-                  <Check size={19} strokeWidth={3} /> Added
+                  <Check size={19} strokeWidth={3} /> Добавлено
                 </motion.span>
               ) : (
                 <motion.span
@@ -309,7 +310,7 @@ function DishSheetBody({ dish, onClose }: { dish: Dish; onClose: () => void }) {
                   transition={{ type: "spring", stiffness: 460, damping: 26 }}
                   className="flex items-center gap-2"
                 >
-                  Add to cart
+                  В корзину
                   <span className="opacity-40">·</span>
                   <AnimatedMoney value={total} />
                 </motion.span>
@@ -330,7 +331,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ── gallery ─────────────────────────────────────────────── */
+/* ── галерея ─────────────────────────────────────────────── */
 
 function Gallery({ dish, onClose }: { dish: Dish; onClose: () => void }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
@@ -356,9 +357,9 @@ function Gallery({ dish, onClose }: { dish: Dish; onClose: () => void }) {
             <div key={src + i} className="relative h-[290px] min-w-0 flex-[0_0_100%]">
               <Image
                 src={src}
-                alt={`${dish.name} — photo ${i + 1}`}
+                alt={`${dish.name} — фото ${i + 1}`}
                 fill
-                sizes="430px"
+                sizes="480px"
                 priority={i === 0}
                 className="object-cover"
               />
@@ -371,9 +372,9 @@ function Gallery({ dish, onClose }: { dish: Dish; onClose: () => void }) {
       <DishBadges badges={dish.badges} className="absolute left-4 top-4" />
       <button
         type="button"
-        aria-label="Close"
+        aria-label="Закрыть"
         onClick={onClose}
-        className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-black/40 border border-white/15 backdrop-blur-xl cursor-pointer"
+        className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-black/40 border border-white/20 text-white backdrop-blur-xl cursor-pointer"
       >
         <X size={16} />
       </button>
@@ -385,10 +386,10 @@ function Gallery({ dish, onClose }: { dish: Dish; onClose: () => void }) {
               key={i}
               animate={{
                 width: selected === i ? 18 : 6,
-                opacity: selected === i ? 1 : 0.45,
+                opacity: selected === i ? 1 : 0.5,
               }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className="h-1.5 rounded-full bg-white"
+              className="h-1.5 rounded-full bg-white shadow"
             />
           ))}
         </div>

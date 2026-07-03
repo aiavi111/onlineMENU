@@ -5,11 +5,11 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface IconButtonProps extends HTMLMotionProps<"button"> {
-  label: string; // required for a11y
+  label: string; // обязательный aria-label
   size?: "sm" | "md";
 }
 
-/** frosted-glass circular icon button, 44pt touch target */
+/** тёмная стеклянная круглая кнопка — для наложения поверх фото */
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ className, label, size = "md", ...props }, ref) => (
     <motion.button
@@ -19,7 +19,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       transition={{ type: "spring", stiffness: 520, damping: 28 }}
       className={cn(
         "inline-flex items-center justify-center rounded-full cursor-pointer",
-        "bg-black/35 text-fg border border-white/15 backdrop-blur-xl",
+        "bg-black/35 text-white border border-white/20 backdrop-blur-xl",
         size === "md" ? "size-11" : "size-9",
         className,
       )}

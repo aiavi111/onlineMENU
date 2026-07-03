@@ -55,7 +55,7 @@ export function BottomSheet({
         <>
           <motion.div
             key="scrim"
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-[6px]"
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[6px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -68,9 +68,9 @@ export function BottomSheet({
             role="dialog"
             aria-modal="true"
             className={cn(
-              "fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-[430px]",
+              "fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-[430px] sm:max-w-[480px]",
               "flex flex-col rounded-t-[28px] bg-card border-t border-x border-line",
-              "shadow-[0_-24px_80px_-12px_rgba(0,0,0,0.8)]",
+              "shadow-[0_-24px_70px_-16px_rgba(30,25,15,0.35)]",
               className,
             )}
             style={{ maxHeight }}
@@ -91,7 +91,7 @@ export function BottomSheet({
               onPointerDown={(e) => controls.start(e)}
             >
               <div className="flex justify-center pt-3 pb-2">
-                <div className="h-1.5 w-11 rounded-full bg-white/20" />
+                <div className="h-1.5 w-11 rounded-full bg-fg/15" />
               </div>
               {header}
             </div>

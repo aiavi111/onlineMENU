@@ -57,7 +57,7 @@ export function DishCard({ dish, onOpen }: DishCardProps) {
       onKeyDown={(e) => e.key === "Enter" && onOpen(dish)}
       aria-label={`${dish.name}, ${money(dish.price)}`}
     >
-      {/* photo */}
+      {/* фото */}
       <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-card2">
         <Image
           src={dish.images[0]}
@@ -67,7 +67,7 @@ export function DishCard({ dish, onOpen }: DishCardProps) {
           sizes="(max-width: 430px) 100vw, 400px"
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06] group-active:scale-[1.04]"
         />
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/55 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent" />
         <DishBadges badges={dish.badges} className="absolute left-3 top-3" />
         <FavHeart
           active={fav}
@@ -75,12 +75,12 @@ export function DishCard({ dish, onOpen }: DishCardProps) {
           size="sm"
           className="absolute right-3 top-3"
         />
-        <span className="absolute bottom-3 left-3 rounded-full bg-black/40 border border-white/15 backdrop-blur-md px-2.5 py-1 text-[11px] font-semibold text-white/90 tabular-nums">
-          {dish.weight} g · {dish.kcal} kcal
+        <span className="absolute bottom-3 left-3 rounded-full bg-black/40 border border-white/20 backdrop-blur-md px-2.5 py-1 text-[11px] font-semibold text-white/95 tabular-nums">
+          {dish.weight} г · {dish.kcal} ккал
         </span>
       </div>
 
-      {/* copy */}
+      {/* текст */}
       <div className="px-1.5 pt-3.5">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-[17px] font-bold tracking-tight leading-snug">
@@ -109,8 +109,8 @@ export function DishCard({ dish, onOpen }: DishCardProps) {
             whileTap={{ scale: 0.82 }}
             transition={{ type: "spring", stiffness: 520, damping: 24 }}
             onClick={quickAdd}
-            aria-label={`Add ${dish.name} to cart`}
-            className="grid size-11 place-items-center rounded-full bg-fg text-black shadow-lift cursor-pointer"
+            aria-label={`Добавить «${dish.name}» в корзину`}
+            className="grid size-11 place-items-center rounded-full bg-fg text-onfg shadow-lift cursor-pointer"
           >
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.span

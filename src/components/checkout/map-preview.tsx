@@ -4,29 +4,29 @@ import { motion } from "framer-motion";
 import { Clock, Navigation } from "lucide-react";
 import { RESTAURANT } from "@/data/menu";
 
-/** stylized dark vector map with an animated courier route */
+/** стилизованная векторная карта с анимированным маршрутом курьера */
 export function MapPreview() {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-line bg-[#101014]">
+    <div className="relative overflow-hidden rounded-3xl border border-line bg-card2">
       <svg viewBox="0 0 400 190" className="block w-full" aria-hidden>
-        {/* blocks */}
-        <rect x="24" y="18" width="90" height="60" rx="8" fill="#ffffff" opacity="0.04" />
-        <rect x="140" y="30" width="70" height="48" rx="8" fill="#ffffff" opacity="0.03" />
-        <rect x="236" y="14" width="120" height="52" rx="8" fill="#ffffff" opacity="0.045" />
-        <rect x="30" y="108" width="76" height="60" rx="8" fill="#ffffff" opacity="0.03" />
-        <rect x="132" y="104" width="86" height="66" rx="8" fill="#ffffff" opacity="0.045" />
-        <rect x="248" y="96" width="104" height="74" rx="8" fill="#ffffff" opacity="0.035" />
-        {/* streets */}
-        <path d="M0 90 H400" stroke="#ffffff" strokeOpacity="0.09" strokeWidth="7" />
-        <path d="M120 0 V190" stroke="#ffffff" strokeOpacity="0.08" strokeWidth="6" />
-        <path d="M228 0 V190" stroke="#ffffff" strokeOpacity="0.07" strokeWidth="5" />
-        <path d="M0 26 H400" stroke="#ffffff" strokeOpacity="0.05" strokeWidth="3" />
-        <path d="M0 150 H400" stroke="#ffffff" strokeOpacity="0.05" strokeWidth="3" />
-        {/* route */}
+        {/* кварталы */}
+        <rect x="24" y="18" width="90" height="60" rx="8" fill="#17150f" opacity="0.05" />
+        <rect x="140" y="30" width="70" height="48" rx="8" fill="#17150f" opacity="0.04" />
+        <rect x="236" y="14" width="120" height="52" rx="8" fill="#17150f" opacity="0.055" />
+        <rect x="30" y="108" width="76" height="60" rx="8" fill="#17150f" opacity="0.04" />
+        <rect x="132" y="104" width="86" height="66" rx="8" fill="#17150f" opacity="0.055" />
+        <rect x="248" y="96" width="104" height="74" rx="8" fill="#17150f" opacity="0.045" />
+        {/* улицы */}
+        <path d="M0 90 H400" stroke="#17150f" strokeOpacity="0.1" strokeWidth="7" />
+        <path d="M120 0 V190" stroke="#17150f" strokeOpacity="0.09" strokeWidth="6" />
+        <path d="M228 0 V190" stroke="#17150f" strokeOpacity="0.08" strokeWidth="5" />
+        <path d="M0 26 H400" stroke="#17150f" strokeOpacity="0.06" strokeWidth="3" />
+        <path d="M0 150 H400" stroke="#17150f" strokeOpacity="0.06" strokeWidth="3" />
+        {/* маршрут */}
         <motion.path
           d="M52 152 L120 152 Q128 152 128 144 L128 98 Q128 90 136 90 L262 90 Q270 90 270 82 L270 52"
           fill="none"
-          stroke="#fafafa"
+          stroke="#17150f"
           strokeWidth="3.5"
           strokeLinecap="round"
           strokeDasharray="1 10"
@@ -34,12 +34,12 @@ export function MapPreview() {
           animate={{ pathLength: 1, opacity: 1 }}
           transition={{ duration: 1.4, ease: "easeInOut", delay: 0.3 }}
         />
-        {/* origin — restaurant */}
-        <circle cx="52" cy="152" r="7" fill="#0a0a0c" stroke="#fafafa" strokeWidth="2.5" />
-        <circle cx="52" cy="152" r="2.5" fill="#fafafa" />
+        {/* точка отправления — чайхана */}
+        <circle cx="52" cy="152" r="7" fill="#f2eee7" stroke="#17150f" strokeWidth="2.5" />
+        <circle cx="52" cy="152" r="2.5" fill="#17150f" />
       </svg>
 
-      {/* destination pin */}
+      {/* пин назначения */}
       <motion.div
         initial={{ y: -26, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -49,21 +49,21 @@ export function MapPreview() {
       >
         <div className="relative">
           <motion.span
-            className="absolute -inset-2 rounded-full bg-white/20"
+            className="absolute -inset-2 rounded-full bg-fg/15"
             animate={{ scale: [1, 1.9], opacity: [0.5, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, delay: 1.6 }}
           />
-          <span className="relative grid size-8 place-items-center rounded-full bg-fg text-black shadow-lift">
+          <span className="relative grid size-8 place-items-center rounded-full bg-fg text-onfg shadow-lift">
             <Navigation size={15} strokeWidth={2.6} className="-translate-x-px translate-y-px" />
           </span>
         </div>
       </motion.div>
 
-      {/* overlays */}
-      <div className="absolute bottom-3 left-3 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 text-[12px] font-semibold backdrop-blur-md">
-        {RESTAURANT.address} → <span className="text-mute">Home</span>
+      {/* плашки */}
+      <div className="absolute bottom-3 left-3 rounded-full border border-line bg-white/85 backdrop-blur-md px-3 py-1.5 text-[12px] font-semibold">
+        пр. Чуй, 104 → <span className="text-mute">Дом</span>
       </div>
-      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 text-[12px] font-bold backdrop-blur-md">
+      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-line bg-white/85 backdrop-blur-md px-3 py-1.5 text-[12px] font-bold">
         <Clock size={12.5} className="text-mute" />
         {RESTAURANT.deliveryTime}
       </div>

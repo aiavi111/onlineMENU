@@ -11,6 +11,7 @@ import { DishGrid } from "@/components/dish-grid";
 import { DishSheet } from "@/components/dish-sheet";
 import { CartFab } from "@/components/cart/cart-fab";
 import { CartSheet } from "@/components/cart/cart-sheet";
+import { RESTAURANT } from "@/data/menu";
 
 export default function HomePage() {
   const [category, setCategory] = useState<CategoryFilter>("all");
@@ -57,8 +58,8 @@ export default function HomePage() {
 
   const heading =
     category === "all"
-      ? "The menu"
-      : CATEGORIES.find((c) => c.id === category)?.label ?? "Menu";
+      ? "Всё меню"
+      : CATEGORIES.find((c) => c.id === category)?.label ?? "Меню";
 
   const resetAll = () => {
     setQuery("");
@@ -88,9 +89,9 @@ export default function HomePage() {
           onReset={resetAll}
         />
         <footer className="px-5 pt-12 text-center text-[12px] font-medium text-dim">
-          NOIR · Modern Kitchen & Bar
+          Mubarak · Чайхана
           <br />
-          12 Blackwood Ave, Old Town · Open daily 10:00 – 23:00
+          {RESTAURANT.address} · Ежедневно {RESTAURANT.hours}
         </footer>
       </main>
 

@@ -1,9 +1,10 @@
 export type CategoryId =
-  | "burgers"
-  | "sushi"
-  | "pizza"
-  | "grill"
+  | "plov"
+  | "lagman"
+  | "manty"
+  | "shashlik"
   | "salads"
+  | "soups"
   | "desserts"
   | "drinks";
 
@@ -12,7 +13,6 @@ export type BadgeKind = "popular" | "new" | "spicy" | "veg";
 export interface Category {
   id: CategoryId;
   label: string;
-  emoji: string;
 }
 
 export interface SizeOption {

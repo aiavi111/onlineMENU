@@ -34,13 +34,13 @@ export function Stepper({
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full bg-white/[0.07] border border-line",
+        "inline-flex items-center rounded-full bg-veil border border-line",
         className,
       )}
     >
       <motion.button
         type="button"
-        aria-label="Decrease quantity"
+        aria-label="Уменьшить количество"
         whileTap={{ scale: 0.8 }}
         className={cn(btn, dims)}
         disabled={value <= min}
@@ -72,7 +72,7 @@ export function Stepper({
 
       <motion.button
         type="button"
-        aria-label="Increase quantity"
+        aria-label="Увеличить количество"
         whileTap={{ scale: 0.8 }}
         className={cn(btn, dims)}
         disabled={value >= max}

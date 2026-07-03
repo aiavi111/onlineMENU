@@ -4,19 +4,19 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "NOIR — Modern Kitchen & Bar",
+  title: "Mubarak — Чайхана | Доставка в Бишкеке",
   description:
-    "Premium food ordering from NOIR. Chef-crafted burgers, sushi, grill and more — delivered in 25–35 min.",
+    "Чайхана Mubarak: плов, лагман, манты и шашлык с доставкой за 30–40 минут. Восточная кухня, завтраки, обеды и ужины. Бишкек, пр. Чуй, 104.",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
-    title: "NOIR",
+    statusBarStyle: "default",
+    title: "Mubarak",
   },
 };
 
@@ -24,18 +24,19 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0a0a0c",
+  themeColor: "#faf8f4",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="ru" className={inter.variable}>
       <body className="font-sans bg-shell">
         <Providers>
-          {/* phone-width stage: full-bleed on mobile, framed on desktop */}
-          <div className="relative mx-auto w-full max-w-[430px] min-h-dvh bg-base sm:ring-1 sm:ring-line sm:shadow-[0_0_120px_-20px_rgba(255,255,255,0.07)]">
+          {/* мобильная сцена: во всю ширину на телефоне, рамка на десктопе */}
+          {/* телефон: колонка 430px; ноутбук (≥1024px): широкая раскладка */}
+          <div className="relative mx-auto w-full max-w-[430px] lg:max-w-[1120px] min-h-dvh bg-base sm:ring-1 sm:ring-line sm:shadow-[0_0_80px_-20px_rgba(30,25,15,0.25)]">
             {children}
           </div>
         </Providers>

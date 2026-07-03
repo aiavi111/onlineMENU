@@ -12,11 +12,11 @@ interface FavHeartProps {
   className?: string;
 }
 
-/** favorite toggle with spring pop + ring burst */
+/** избранное: пружинный «поп» + расходящееся кольцо */
 export function FavHeart({ active, onToggle, size = "md", className }: FavHeartProps) {
   return (
     <IconButton
-      label={active ? "Remove from favorites" : "Add to favorites"}
+      label={active ? "Убрать из избранного" : "В избранное"}
       aria-pressed={active}
       size={size}
       className={cn("relative", className)}
@@ -48,7 +48,7 @@ export function FavHeart({ active, onToggle, size = "md", className }: FavHeartP
         <Heart
           size={size === "md" ? 18 : 15}
           strokeWidth={2.2}
-          className={active ? "fill-fg text-fg" : "text-fg"}
+          className={active ? "fill-white text-white" : "text-white"}
         />
       </motion.span>
     </IconButton>

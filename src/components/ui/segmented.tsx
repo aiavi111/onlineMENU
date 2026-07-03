@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { cn, haptic } from "@/lib/utils";
 
 interface SegmentedProps<T extends string> {
-  groupId: string; // unique layoutId namespace
+  groupId: string; // уникальное пространство layoutId
   options: { id: T; label: string; hint?: string }[];
   value: T;
   onChange: (v: T) => void;
   className?: string;
 }
 
-/** iOS-style segmented control with a sliding white thumb */
+/** сегмент-контрол в духе iOS: скользящий чернильный ползунок */
 export function Segmented<T extends string>({
   groupId,
   options,
@@ -23,7 +23,7 @@ export function Segmented<T extends string>({
     <div
       role="tablist"
       className={cn(
-        "flex rounded-full bg-white/[0.06] border border-line p-1",
+        "flex rounded-full bg-veil border border-line p-1",
         className,
       )}
     >
@@ -51,7 +51,7 @@ export function Segmented<T extends string>({
             <span
               className={cn(
                 "relative z-10 flex flex-col items-center justify-center leading-tight transition-colors duration-200",
-                active ? "text-black" : "text-mute",
+                active ? "text-onfg" : "text-mute",
               )}
             >
               {opt.label}
@@ -59,7 +59,7 @@ export function Segmented<T extends string>({
                 <span
                   className={cn(
                     "text-[10px] font-medium",
-                    active ? "text-black/60" : "text-dim",
+                    active ? "text-onfg/60" : "text-dim",
                   )}
                 >
                   {opt.hint}

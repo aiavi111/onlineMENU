@@ -5,8 +5,8 @@ import { persist } from "zustand/middleware";
 import type { CartLine } from "@/types";
 import { RESTAURANT } from "@/data/menu";
 
-export const TAX_RATE = 0.08;
-export const PROMOS: Record<string, number> = { NOIR10: 0.1, CHEF20: 0.2 };
+export const TAX_RATE = 0; // цены уже с налогами — как в чеке чайханы
+export const PROMOS: Record<string, number> = { MUBARAK10: 0.1, CHAIHANA20: 0.2 };
 
 interface CartState {
   lines: CartLine[];
@@ -62,7 +62,7 @@ export const useCart = create<CartState>()(
       clearPromo: () => set({ promo: null }),
       clear: () => set({ lines: [], promo: null }),
     }),
-    { name: "noir-cart" },
+    { name: "mubarak-cart" },
   ),
 );
 
