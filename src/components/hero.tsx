@@ -40,7 +40,7 @@ export function Hero() {
   return (
     <header className="relative">
       {/* ── фото с параллаксом ── */}
-      <div className="relative h-[440px] overflow-hidden">
+      <div className="relative h-[440px] lg:h-[490px] overflow-hidden">
         <motion.div style={{ y: parallax }} className="absolute inset-0">
           <motion.div
             initial={{ scale: 1.14, opacity: 0 }}
@@ -58,9 +58,11 @@ export function Hero() {
             />
           </motion.div>
         </motion.div>
-        {/* кинематографичные градиенты */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/10 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-base via-base/70 to-transparent" />
+        {/* кинематографичные градиенты: фото остаётся сочным, текст читается */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/15 to-black/10" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/75 via-black/35 to-transparent" />
+        {/* тонкий шов в цвет страницы */}
+        <div className="absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-base to-transparent" />
 
         {/* верхние кнопки */}
         <motion.div
@@ -92,7 +94,8 @@ export function Hero() {
         </motion.div>
 
         {/* имя ресторана */}
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 lg:px-10 text-white">
+        {/* на ноуте поднимаем текст, чтобы карточка условий его не перекрывала */}
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 lg:px-10 lg:pb-24 text-white">
           <motion.div
             initial={{ y: 28, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
