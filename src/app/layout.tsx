@@ -35,8 +35,8 @@ export default function RootLayout({
       <body className="font-sans bg-shell">
         <Providers>
           {/* мобильная сцена: во всю ширину на телефоне, рамка на десктопе */}
-          {/* телефон: колонка 430px; ноутбук (≥1024px): широкая раскладка */}
-          <div className="relative mx-auto w-full max-w-[430px] lg:max-w-[1120px] min-h-dvh bg-base sm:ring-1 sm:ring-line sm:shadow-[0_0_80px_-20px_rgba(30,25,15,0.25)]">
+          {/* телефон: колонка 430px; ноутбук (≥1024px): во весь экран */}
+          <div className="relative mx-auto w-full max-w-[430px] lg:max-w-none min-h-dvh bg-base sm:ring-1 sm:ring-line sm:shadow-[0_0_80px_-20px_rgba(30,25,15,0.25)] lg:ring-0 lg:shadow-none">
             {children}
           </div>
         </Providers>

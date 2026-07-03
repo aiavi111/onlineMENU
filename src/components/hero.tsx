@@ -58,11 +58,9 @@ export function Hero() {
             />
           </motion.div>
         </motion.div>
-        {/* кинематографичные градиенты: фото остаётся сочным, текст читается */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/15 to-black/10" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/75 via-black/35 to-transparent" />
-        {/* тонкий шов в цвет страницы */}
-        <div className="absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-base to-transparent" />
+        {/* кремовый градиент: фото мягко перетекает в страницу, текст поверх — чёрный */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/10 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-base via-base/70 to-transparent" />
 
         {/* верхние кнопки */}
         <motion.div
@@ -95,14 +93,14 @@ export function Hero() {
 
         {/* имя ресторана */}
         {/* на ноуте поднимаем текст, чтобы карточка условий его не перекрывала */}
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 lg:px-10 lg:pb-24 text-white">
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 lg:px-10 lg:pb-24 text-fg">
           <motion.div
             initial={{ y: 28, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ ...spring, delay: 0.25 }}
           >
-            <Logo className="h-11 lg:h-14 w-auto text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]" />
-            <p className="mt-2.5 text-[15px] font-medium text-white/85">
+            <Logo className="h-11 lg:h-14 w-auto text-fg" />
+            <p className="mt-2.5 text-[15px] font-medium text-mute">
               {RESTAURANT.tagline}
             </p>
           </motion.div>
@@ -111,9 +109,9 @@ export function Hero() {
             initial={{ y: 28, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ ...spring, delay: 0.34 }}
-            className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13.5px] font-medium text-white/80"
+            className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13.5px] font-medium text-mute"
           >
-            <span className="flex items-center gap-1 font-bold text-white">
+            <span className="flex items-center gap-1 font-bold text-fg">
               <Star size={14} className="fill-star text-star" />
               {RESTAURANT.rating}
             </span>
@@ -121,12 +119,12 @@ export function Hero() {
               ({RESTAURANT.reviews.toLocaleString("ru-RU")}{" "}
               {plural(RESTAURANT.reviews, ["оценка", "оценки", "оценок"])})
             </span>
-            <span className="text-white/50">·</span>
+            <span className="text-dim">·</span>
             <span className="flex items-center gap-1">
               <Clock size={13} />
               {RESTAURANT.deliveryTime}
             </span>
-            <span className="text-white/50">·</span>
+            <span className="text-dim">·</span>
             <span>{RESTAURANT.distance}</span>
           </motion.div>
         </div>
